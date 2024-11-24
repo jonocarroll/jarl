@@ -1,15 +1,10 @@
 use crate::{lang::Signal, parser::*, session::SessionParserConfig};
 
-pub type HighlightResult = Result<Vec<(String, Style)>, Signal>;
 pub type LineColResult = Result<Vec<(usize, usize)>, Signal>;
 pub trait LocalizedParser: std::marker::Sync {
     fn parse_input_with(&self, input: &str, config: &SessionParserConfig) -> ParseResult;
     fn parse_input(&self, input: &str) -> ParseResult {
         self.parse_input_with(input, &SessionParserConfig::default())
-    }
-    fn parse_highlight_with(&self, input: &str, config: &SessionParserConfig) -> HighlightResult;
-    fn parse_highlight(&self, input: &str) -> HighlightResult {
-        self.parse_highlight_with(input, &SessionParserConfig::default())
     }
     fn parse_line_col(&self, input: &str) -> LineColResult;
 }
@@ -35,14 +30,6 @@ impl LocalizedParser for Localization {
             En => LocalizedParser::parse_input_with(&en::Parser, input, config),
         }
     }
-
-    fn parse_highlight_with(&self, input: &str, config: &SessionParserConfig) -> HighlightResult {
-        use Localization::*;
-        match self {
-            En => LocalizedParser::parse_highlight_with(&en::Parser, input, config),
-        }
-    }
-
     fn parse_line_col(&self, input: &str) -> LineColResult {
         use Localization::*;
         match self {
@@ -60,17 +47,6 @@ impl LocalizedParser for SessionParserConfig {
         use Localization::*;
         match self.locale {
             En => LocalizedParser::parse_input_with(&en::Parser, input, self),
-        }
-    }
-
-    fn parse_highlight_with(&self, _input: &str, _config: &SessionParserConfig) -> HighlightResult {
-        unimplemented!()
-    }
-
-    fn parse_highlight(&self, input: &str) -> HighlightResult {
-        use Localization::*;
-        match self.locale {
-            En => LocalizedParser::parse_highlight_with(&en::Parser, input, self),
         }
     }
 

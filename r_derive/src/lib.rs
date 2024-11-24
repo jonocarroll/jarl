@@ -298,21 +298,6 @@ pub fn derive_localized_parser(input: TokenStream) -> TokenStream {
                 }
             }
 
-            fn parse_highlight_with(&self, input: &str, config: &SessionParserConfig) -> HighlightResult {
-                let pairs = <Self as pest::Parser<Rule>>::parse(Rule::hl, input);
-                match pairs {
-                    Ok(pairs) => Ok(pairs
-                        .map(|pair| {
-                            (
-                                pair.as_str().to_string(),
-                                Into::<en::Rule>::into(pair.as_rule()).into(),
-                            )
-                        })
-                        .collect()),
-                    Err(e) => Err(Signal::Error(Error::from_parse_error(input, e))),
-                }
-            }
-
             fn parse_line_col(&self, input: &str) -> LineColResult {
                 let pairs = <Self as pest::Parser<Rule>>::parse(Rule::hl, input);
                 match pairs {
