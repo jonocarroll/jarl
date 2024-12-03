@@ -30,18 +30,18 @@ impl Message {
     /// Short ID for the message.
     pub fn code(&self) -> &'static str {
         match self {
-            Message::TrueFalseSymbol { filename: _, location: _ } => "T-F-symbols",
-            Message::AnyIsNa { filename: _, location: _ } => "any-na",
-            Message::AnyDuplicated { filename: _, location: _ } => "any-duplicated",
+            Message::TrueFalseSymbol { .. } => "T-F-symbols",
+            Message::AnyIsNa { .. } => "any-na",
+            Message::AnyDuplicated { .. } => "any-duplicated",
         }
     }
 
     /// The body text for the message.
     pub fn body(&self) -> &'static str {
         match self {
-            Message::TrueFalseSymbol { filename: _, location: _ } => "`T` and `F` can be confused with variable names. Spell `TRUE` and `FALSE` entirely instead.",
-            Message::AnyIsNa { filename: _, location: _ } => "`any(is.na(...))` is inefficient. Use `anyNA(...)` instead.",
-            Message::AnyDuplicated { filename: _, location: _ } => "`any(duplicated(...))` is inefficient. Use `anyDuplicated(...) > 0` instead.",
+            Message::TrueFalseSymbol { .. } => "`T` and `F` can be confused with variable names. Spell `TRUE` and `FALSE` entirely instead.",
+            Message::AnyIsNa { .. } => "`any(is.na(...))` is inefficient. Use `anyNA(...)` instead.",
+            Message::AnyDuplicated { .. } => "`any(duplicated(...))` is inefficient. Use `anyDuplicated(...) > 0` instead.",
         }
     }
 }
