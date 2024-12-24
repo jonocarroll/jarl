@@ -37,7 +37,7 @@ impl LintChecker for AnyIsNa {
                             start: range.start().into(),
                             end: range.end().into(),
                             applied: false,
-                            length_change: -3,
+                            length_change: -5,
                         },
                     })
                 };

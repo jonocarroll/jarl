@@ -20,6 +20,7 @@ pub fn apply_fixes(fixes: &[Message], contents: &str) -> String {
         let mut start: i32 = fix.start.try_into().unwrap();
         let mut end: i32 = fix.end.try_into().unwrap();
 
+        // println!("fix text: {}", fix.content);
         // println!("last_modified_pos: {}", last_modified_pos);
         // println!("original start: {}", start);
         // println!("original end: {}", end);
@@ -47,5 +48,7 @@ pub fn apply_fixes(fixes: &[Message], contents: &str) -> String {
 
     // println!("{:?}", unapplied_fixes);
 
+    // println!("fixed output:\n{}", new_content.to_string());
+    // old_content.to_string()
     new_content.to_string()
 }
