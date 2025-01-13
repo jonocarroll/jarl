@@ -4,15 +4,33 @@ use std::process::{Command, Stdio};
 use tempfile::Builder;
 use tempfile::NamedTempFile;
 
-pub fn get_lint_and_fix_text(text: &str) -> (String, String) {
+pub fn get_lint_and_fix_text(text: Vec<&str>) -> (String, String) {
     let temp_file = Builder::new()
         .prefix("test-flint")
         .suffix(".R")
         .tempfile()
         .unwrap();
 
-    fs::write(&temp_file, text).expect("Failed to write initial content");
-    (get_lint_text(&temp_file), get_fixed_text(&temp_file))
+    let separate_lint_text = text
+        .iter()
+        .map(|x| {
+            fs::write(&temp_file, x).expect("Failed to write initial content");
+            get_lint_text(&temp_file)
+        })
+        .collect::<Vec<String>>();
+
+    let separate_fixed_text = text
+        .iter()
+        .map(|x| {
+            fs::write(&temp_file, x).expect("Failed to write initial content");
+            get_fixed_text(&temp_file)
+        })
+        .collect::<Vec<String>>();
+
+    (
+        separate_lint_text.join("\n\n"),
+        separate_fixed_text.join("\n\n"),
+    )
 }
 
 pub fn get_lint_text(file: &NamedTempFile) -> String {
@@ -29,7 +47,7 @@ pub fn get_lint_text(file: &NamedTempFile) -> String {
     let lint_text = re.replace_all(&lint_text, "[...]");
 
     format!(
-        "ORIGINAL:\n=========\n{}\n\nNEW:\n====\n{}",
+        "  OLD:\n  ====\n{}\n  NEW:\n  ====\n{}",
         original_content, lint_text
     )
 }
@@ -49,7 +67,7 @@ pub fn get_fixed_text(file: &NamedTempFile) -> String {
     let modified_content = fs::read_to_string(file).expect("Failed to read file content");
 
     format!(
-        "ORIGINAL:\n=========\n{}\n\nNEW:\n====\n{}",
+        "  OLD:\n  ====\n{}\n  NEW:\n  ====\n{}",
         original_content, modified_content
     )
 }

@@ -2,13 +2,23 @@
 source: tests/test-AnyNA.rs
 expression: fix_output
 ---
-ORIGINAL:
-=========
+  OLD:
+  ====
 any(is.na(x))
-any(is.na(foo(x)))
-
-
-NEW:
-====
+  NEW:
+  ====
 anyNA(x)
+
+  OLD:
+  ====
+any(is.na(foo(x)))
+  NEW:
+  ====
 anyNA(foo(x))
+
+  OLD:
+  ====
+any(is.na(x), na.rm = TRUE)
+  NEW:
+  ====
+anyNA(x)

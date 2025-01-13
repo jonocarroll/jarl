@@ -2,27 +2,73 @@
 source: tests/test-EqualsNa.rs
 expression: lint_output
 ---
-ORIGINAL:
-=========
+  OLD:
+  ====
 x == NA
-x == NA_integer_
-x == NA_real_
-x == NA_logical_
-x == NA_character_
-x == NA_complex_
-x != NA
-foo(x(y)) == NA
-NA == x
-
-
-NEW:
-====
+  NEW:
+  ====
 /tmp/test-[...] [1:1] equals-na Use `is.na()` instead of comparing to NA with ==, != or %in%.
-/tmp/test-[...] [2:1] equals-na Use `is.na()` instead of comparing to NA with ==, != or %in%.
-/tmp/test-[...] [3:1] equals-na Use `is.na()` instead of comparing to NA with ==, != or %in%.
-/tmp/test-[...] [4:1] equals-na Use `is.na()` instead of comparing to NA with ==, != or %in%.
-/tmp/test-[...] [5:1] equals-na Use `is.na()` instead of comparing to NA with ==, != or %in%.
-/tmp/test-[...] [6:1] equals-na Use `is.na()` instead of comparing to NA with ==, != or %in%.
-/tmp/test-[...] [7:1] equals-na Use `is.na()` instead of comparing to NA with ==, != or %in%.
-/tmp/test-[...] [8:1] equals-na Use `is.na()` instead of comparing to NA with ==, != or %in%.
-/tmp/test-[...] [9:1] equals-na Use `is.na()` instead of comparing to NA with ==, != or %in%.
+
+
+  OLD:
+  ====
+x == NA_integer_
+  NEW:
+  ====
+/tmp/test-[...] [1:1] equals-na Use `is.na()` instead of comparing to NA with ==, != or %in%.
+
+
+  OLD:
+  ====
+x == NA_real_
+  NEW:
+  ====
+/tmp/test-[...] [1:1] equals-na Use `is.na()` instead of comparing to NA with ==, != or %in%.
+
+
+  OLD:
+  ====
+x == NA_logical_
+  NEW:
+  ====
+/tmp/test-[...] [1:1] equals-na Use `is.na()` instead of comparing to NA with ==, != or %in%.
+
+
+  OLD:
+  ====
+x == NA_character_
+  NEW:
+  ====
+/tmp/test-[...] [1:1] equals-na Use `is.na()` instead of comparing to NA with ==, != or %in%.
+
+
+  OLD:
+  ====
+x == NA_complex_
+  NEW:
+  ====
+/tmp/test-[...] [1:1] equals-na Use `is.na()` instead of comparing to NA with ==, != or %in%.
+
+
+  OLD:
+  ====
+x != NA
+  NEW:
+  ====
+/tmp/test-[...] [1:1] equals-na Use `is.na()` instead of comparing to NA with ==, != or %in%.
+
+
+  OLD:
+  ====
+foo(x(y)) == NA
+  NEW:
+  ====
+/tmp/test-[...] [1:1] equals-na Use `is.na()` instead of comparing to NA with ==, != or %in%.
+
+
+  OLD:
+  ====
+NA == x
+  NEW:
+  ====
+/tmp/test-[...] [1:1] equals-na Use `is.na()` instead of comparing to NA with ==, != or %in%.
