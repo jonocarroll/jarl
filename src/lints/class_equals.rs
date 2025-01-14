@@ -21,7 +21,10 @@ impl LintChecker for ClassEquals {
 
         let operator = operator.unwrap();
 
-        if operator.kind() != RSyntaxKind::EQUAL2 && operator.kind() != RSyntaxKind::NOT_EQUAL {
+        if operator.kind() != RSyntaxKind::EQUAL2
+            && operator.kind() != RSyntaxKind::NOT_EQUAL
+            && operator.text_trimmed() != "%in%"
+        {
             return messages;
         };
 
@@ -44,12 +47,12 @@ impl LintChecker for ClassEquals {
             return messages;
         }
 
-        let fun_name;
-        if operator.kind() == RSyntaxKind::EQUAL2 {
-            fun_name = "inherits";
-        } else {
-            fun_name = "!inherits"
-        };
+        let fun_name =
+            if operator.kind() == RSyntaxKind::EQUAL2 || operator.text_trimmed() == "%in%" {
+                "inherits"
+            } else {
+                "!inherits"
+            };
 
         let fun_content;
         let class_name;

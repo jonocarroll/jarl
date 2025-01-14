@@ -35,14 +35,14 @@ is_regression <- inherits(x, "lm")
 if ('character' %in% class(x)) 1
   NEW:
   ====
-if ('character' %in% class(x)) 1
+if (inherits(x, 'character')) 1
 
   OLD:
   ====
 if (class(x) %in% 'character') 1
   NEW:
   ====
-if (class(x) %in% 'character') 1
+if (inherits(x, 'character')) 1
 
   OLD:
   ====
