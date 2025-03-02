@@ -223,6 +223,13 @@ impl SemanticEventExtractor {
                 && n.parent().map_or(false, |p| p.kind() == R_FOR_STATEMENT)
         });
 
+        // Check the identifier is from a function definition, e.g. x in function(x)
+        let in_function_def = node.ancestors().any(|n| {
+            n.kind() == R_PARAMETERS
+                && n.parent()
+                    .map_or(false, |p| p.kind() == R_FUNCTION_DEFINITION)
+        });
+
         if is_for_var {
             // Handle for loop variable like a normal assignment but in parent scope
             if let Some(name_token) = node.first_token() {
@@ -272,7 +279,7 @@ impl SemanticEventExtractor {
             let name = name_token.token_text_trimmed();
             let range = node.text_trimmed_range();
 
-            if is_assignment {
+            if is_assignment || in_function_def {
                 // For assignments in a for loop body, use parent scope
                 let scope_index = if in_for_body && self.scopes.len() > 1 {
                     self.scopes.len() - 2 // parent scope

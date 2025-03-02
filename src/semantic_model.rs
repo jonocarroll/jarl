@@ -47,6 +47,7 @@ pub fn semantic_model(root: &RRoot, options: SemanticModelOptions) -> SemanticMo
 
     let root = root.syntax();
     for node in root.preorder() {
+        // println!("node: {:?}", node);
         match node {
             air_r_syntax::WalkEvent::Enter(node) => {
                 builder.push_node(&node);
@@ -60,6 +61,7 @@ pub fn semantic_model(root: &RRoot, options: SemanticModelOptions) -> SemanticMo
     extractor.pop_scope(root.text_trimmed_range());
 
     while let Some(e) = extractor.pop() {
+        // println!("event: {:?}", e);
         builder.push_event(e);
     }
 
