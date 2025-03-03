@@ -4,6 +4,7 @@ use crate::trait_lint_checker::LintChecker;
 use crate::utils::find_row_col;
 use air_r_syntax::RSyntaxNode;
 use air_r_syntax::*;
+use biome_rowan::AstNode;
 
 pub struct TrueFalseSymbol;
 
@@ -18,10 +19,35 @@ impl Violation for TrueFalseSymbol {
 
 impl LintChecker for TrueFalseSymbol {
     fn check(&self, ast: &RSyntaxNode, loc_new_lines: &[usize], file: &str) -> Vec<Diagnostic> {
-        let mut diagnostics = vec![];
+        let mut diagnostics: Vec<Diagnostic> = vec![];
         if ast.kind() == RSyntaxKind::R_IDENTIFIER
             && (ast.text_trimmed() == "T" || ast.text_trimmed() == "F")
         {
+            // Allow T(), F()
+            let is_function_name = ast.parent().unwrap().kind() == RSyntaxKind::R_CALL;
+            // Allow df$T, df$F
+            let is_element_name = ast.parent().unwrap().kind() == RSyntaxKind::R_EXTRACT_EXPRESSION;
+            // Allow A ~ T
+            let is_in_formula = match ast.parent() {
+                Some(x) => {
+                    let bin_expr = RBinaryExpression::cast(x.clone());
+                    if bin_expr.is_some() {
+                        let RBinaryExpressionFields { left: _, operator, right: _ } =
+                            bin_expr.unwrap().as_fields();
+
+                        let operator = operator.unwrap();
+                        operator.kind() == RSyntaxKind::TILDE
+                    } else {
+                        false
+                    }
+                }
+                None => false,
+            };
+
+            if is_function_name || is_element_name || is_in_formula {
+                return diagnostics;
+            }
+
             let (row, column) = find_row_col(ast, loc_new_lines);
             let range = ast.text_trimmed_range();
             diagnostics.push(Diagnostic {
