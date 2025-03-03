@@ -1,5 +1,4 @@
 use super::*;
-use crate::semantic_model::model::{ReferenceId, ScopeId};
 use air_r_syntax::{RSyntaxNode, TextRange};
 use biome_rowan::TokenText;
 use rustc_hash::{FxHashMap, FxHashSet};

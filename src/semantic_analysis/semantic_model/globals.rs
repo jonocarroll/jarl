@@ -1,5 +1,4 @@
-use super::*;
-use crate::semantic_model::binding::SemanticModelReferenceType;
+use crate::semantic_analysis::semantic_model::binding::SemanticModelReferenceType;
 use air_r_syntax::TextSize;
 
 #[derive(Debug)]

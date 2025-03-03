@@ -1,8 +1,4 @@
 use super::*;
-use crate::semantic_model::binding::SemanticModelBindingData;
-use crate::semantic_model::globals::SemanticModelGlobalBindingData;
-use crate::semantic_model::reference::SemanticModelUnresolvedReference;
-use crate::semantic_model::scope::SemanticModelScopeData;
 use air_r_syntax::{RRoot, RSyntaxNode, TextRange};
 use std::sync::Arc;
 

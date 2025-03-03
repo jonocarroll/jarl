@@ -1,16 +1,16 @@
 use air_r_parser::RParserOptions;
 use air_r_syntax::{RSyntaxKind, RSyntaxNode};
 
-use crate::check_unused_vars::*;
 use crate::lints::any_duplicated::AnyDuplicated;
 use crate::lints::any_is_na::AnyIsNa;
 use crate::lints::class_equals::ClassEquals;
 use crate::lints::equals_na::EqualsNa;
 use crate::lints::true_false_symbol::TrueFalseSymbol;
 use crate::message::*;
-use crate::semantic_model::*;
+use crate::semantic_model;
 use crate::trait_lint_checker::LintChecker;
 use crate::utils::*;
+use crate::SemanticModelOptions;
 use anyhow::Result;
 use std::path::Path;
 

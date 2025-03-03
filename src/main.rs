@@ -1,9 +1,9 @@
 use air_r_parser::RParserOptions;
 
 use flir::check_ast::*;
-use flir::check_unused_vars::*;
 use flir::fix::*;
 use flir::message::*;
+use flir::semantic_analysis::check_unused_vars::*;
 
 use clap::{arg, Parser};
 use flir::semantic_model;
