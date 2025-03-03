@@ -4,6 +4,7 @@ use air_r_syntax::{RSyntaxKind, RSyntaxNode};
 use crate::lints::any_duplicated::any_duplicated::AnyDuplicated;
 use crate::lints::any_is_na::any_is_na::AnyIsNa;
 use crate::lints::class_equals::class_equals::ClassEquals;
+use crate::lints::duplicated_arguments::duplicated_arguments::DuplicatedArguments;
 use crate::lints::equal_assignment::equal_assignment::EqualAssignment;
 use crate::lints::equals_na::equals_na::EqualsNa;
 use crate::lints::true_false_symbol::true_false_symbol::TrueFalseSymbol;
@@ -20,6 +21,7 @@ fn rule_name_to_lint_checker(rule_name: &str) -> Box<dyn LintChecker> {
         "any_duplicated" => Box::new(AnyDuplicated),
         "any_is_na" => Box::new(AnyIsNa),
         "class_equals" => Box::new(ClassEquals),
+        "duplicated_arguments" => Box::new(DuplicatedArguments),
         "equal_assignment" => Box::new(EqualAssignment),
         "equals_na" => Box::new(EqualsNa),
         "true_false_symbol" => Box::new(TrueFalseSymbol),

@@ -12,6 +12,16 @@ pub struct Fix {
     pub end: usize,
 }
 
+impl Fix {
+    pub fn empty() -> Self {
+        Self {
+            content: "".to_string(),
+            start: 0usize,
+            end: 0usize,
+        }
+    }
+}
+
 pub trait Violation {
     fn name(&self) -> String;
     fn body(&self) -> String;
