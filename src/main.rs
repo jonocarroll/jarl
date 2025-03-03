@@ -3,17 +3,13 @@ use air_r_parser::RParserOptions;
 use flir::check_ast::*;
 use flir::fix::*;
 use flir::message::*;
-use flir::semantic_analysis::check_unused_vars::*;
 use flir::utils::parse_rules;
 
 use clap::{arg, Parser};
-use flir::semantic_model;
-use flir::SemanticModelOptions;
 use rayon::prelude::*;
 use std::fs;
 use std::path::Path;
 // use std::time::Instant;
-use colored::Colorize;
 use walkdir::WalkDir;
 
 /// Simple program to greet a person
@@ -43,7 +39,7 @@ struct Args {
         short,
         long,
         default_value = "",
-        help = "Names of rules to include, separated by a comma (no spaces)"
+        help = "Names of rules to include, separated by a comma (no spaces)."
     )]
     rules: String,
 }

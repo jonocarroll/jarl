@@ -76,6 +76,10 @@ pub fn check_ast(
     //     );
     // }
 
+    // println!("ast kind: {:?}", ast.kind());
+    // println!("ast text: {:?}", ast.text_trimmed());
+    // println!("diagnostics: {:?}", diagnostics);
+
     match ast.kind() {
         RSyntaxKind::R_EXPRESSION_LIST
         | RSyntaxKind::R_FUNCTION_DEFINITION
@@ -104,15 +108,17 @@ pub fn check_ast(
                 diagnostics.extend(check_ast(&child, loc_new_lines, file, rules));
             }
         }
-        RSyntaxKind::R_IDENTIFIER => {
-            let fc = &ast.first_child();
-            let _has_child = fc.is_some();
-            let ns = ast.next_sibling();
-            let has_sibling = ns.is_some();
-            if has_sibling {
-                diagnostics.extend(check_ast(&ns.unwrap(), loc_new_lines, file, rules));
-            }
-        }
+        // RSyntaxKind::R_IDENTIFIER => {
+        //     diagnostics.extend(check_ast(&ast, loc_new_lines, file, rules));
+
+        //     // let fc = &ast.first_child();
+        //     // let _has_child = fc.is_some();
+        //     // let ns = ast.next_sibling();
+        //     // let has_sibling = ns.is_some();
+        //     // if has_sibling {
+        //     //     diagnostics.extend(check_ast(&ns.unwrap(), loc_new_lines, file, rules));
+        //     // }
+        // }
         _ => {
             // println!("Unknown kind: {:?}", ast.kind());
             match &ast.first_child() {
@@ -122,11 +128,13 @@ pub fn check_ast(
                     }
                 }
                 None => {
-                    let ns = ast.next_sibling();
-                    let has_sibling = ns.is_some();
-                    if has_sibling {
-                        diagnostics.extend(check_ast(&ns.unwrap(), loc_new_lines, file, rules));
-                    }
+                    // COMMENTED OUT SO THAT x <- c(T, F) doesn't give 10 diagnostics
+
+                    // let ns = ast.next_sibling();
+                    // let has_sibling = ns.is_some();
+                    // if has_sibling {
+                    //     diagnostics.extend(check_ast(&ns.unwrap(), loc_new_lines, file, rules));
+                    // }
                 }
             }
         }
