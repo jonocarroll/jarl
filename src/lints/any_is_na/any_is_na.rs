@@ -61,7 +61,7 @@ impl LintChecker for AnyIsNa {
                 let range = ast.text_trimmed_range();
                 diagnostics.push(Diagnostic::new(
                     AnyIsNa,
-                    file.into(),
+                    file,
                     range,
                     Fix {
                         content: format!("anyNA({})", fun_content),

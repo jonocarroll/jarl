@@ -71,7 +71,7 @@ impl LintChecker for ExpectLength {
         let range = ast.text_trimmed_range();
         diagnostics.push(Diagnostic::new(
             ExpectLength,
-            file.into(),
+            file,
             range,
             Fix {
                 content: format!("expect_length({}, {})", arg_obj.text(), arg_exp.text()),

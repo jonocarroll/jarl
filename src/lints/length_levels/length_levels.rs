@@ -56,7 +56,7 @@ impl LintChecker for LengthLevels {
                 let range = ast.text_trimmed_range();
                 diagnostics.push(Diagnostic::new(
                     LengthLevels,
-                    file.into(),
+                    file,
                     range,
                     Fix {
                         content: format!("nlevels({})", fun_content),

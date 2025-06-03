@@ -61,7 +61,7 @@ impl LintChecker for TrueFalseSymbol {
         let range = ast.text_trimmed_range();
         diagnostics.push(Diagnostic::new(
             TrueFalseSymbol,
-            file.into(),
+            file,
             range,
             Fix {
                 content: if ast.text_trimmed() == "T" {

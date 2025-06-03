@@ -56,7 +56,7 @@ impl LintChecker for WhichGrepl {
                 let range = ast.text_trimmed_range();
                 diagnostics.push(Diagnostic::new(
                     WhichGrepl,
-                    file.into(),
+                    file,
                     range,
                     Fix {
                         content: format!("grep({})", fun_content),

@@ -61,7 +61,7 @@ impl LintChecker for AnyDuplicated {
                 let range = ast.text_trimmed_range();
                 diagnostics.push(Diagnostic::new(
                     AnyDuplicated,
-                    file.into(),
+                    file,
                     range,
                     Fix {
                         content: format!("anyDuplicated({}) > 0", fun_content),

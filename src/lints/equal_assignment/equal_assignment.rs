@@ -54,7 +54,7 @@ impl LintChecker for EqualAssignment {
         let range = ast.text_trimmed_range();
         diagnostics.push(Diagnostic::new(
             EqualAssignment,
-            file.into(),
+            file,
             range,
             Fix {
                 content: replacement,

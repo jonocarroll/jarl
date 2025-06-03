@@ -77,7 +77,7 @@ impl LintChecker for ClassEquals {
         let range = ast.text_trimmed_range();
         diagnostics.push(Diagnostic::new(
             ClassEquals,
-            file.into(),
+            file,
             range,
             Fix {
                 content: format!("{}({}, {})", fun_name, fun_content.unwrap(), class_name),

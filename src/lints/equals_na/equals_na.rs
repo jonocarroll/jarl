@@ -63,7 +63,7 @@ impl LintChecker for EqualsNa {
             RSyntaxKind::EQUAL2 => {
                 diagnostics.push(Diagnostic::new(
                     EqualsNa,
-                    file.into(),
+                    file,
                     range,
                     Fix {
                         content: format!("is.na({})", replacement),
@@ -75,7 +75,7 @@ impl LintChecker for EqualsNa {
             RSyntaxKind::NOT_EQUAL => {
                 diagnostics.push(Diagnostic::new(
                     EqualsNa,
-                    file.into(),
+                    file,
                     range,
                     Fix {
                         content: format!("!is.na({})", replacement),

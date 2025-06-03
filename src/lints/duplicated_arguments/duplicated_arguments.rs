@@ -89,7 +89,7 @@ impl LintChecker for DuplicatedArguments {
             let range = ast.text_trimmed_range();
             diagnostics.push(Diagnostic::new(
                 DuplicatedArguments,
-                file.into(),
+                file,
                 range,
                 Fix::empty(),
             ))

@@ -60,7 +60,7 @@ impl LintChecker for EmptyAssignment {
             let range = ast.text_trimmed_range();
             diagnostics.push(Diagnostic::new(
                 EmptyAssignment,
-                file.into(),
+                file,
                 range,
                 Fix::empty(),
             ));

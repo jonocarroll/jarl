@@ -52,7 +52,7 @@ impl LintChecker for RedundantEquals {
                 let range = ast.text_trimmed_range();
                 diagnostics.push(Diagnostic::new(
                     RedundantEquals,
-                    file.into(),
+                    file,
                     range,
                     Fix {
                         content: fix,
@@ -76,7 +76,7 @@ impl LintChecker for RedundantEquals {
                 let range = ast.text_trimmed_range();
                 diagnostics.push(Diagnostic::new(
                     RedundantEquals,
-                    file.into(),
+                    file,
                     range,
                     Fix {
                         content: fix,

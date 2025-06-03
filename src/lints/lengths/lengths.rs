@@ -46,7 +46,7 @@ impl LintChecker for Lengths {
                 let range = ast.text_trimmed_range();
                 diagnostics.push(Diagnostic::new(
                     Lengths,
-                    file.into(),
+                    file,
                     range,
                     Fix {
                         content: format!("lengths({})", arg_x.unwrap().text()),
