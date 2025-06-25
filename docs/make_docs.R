@@ -1,9 +1,16 @@
 library(fs)
+library(yaml)
+
+if (fs::dir_exists("docs/rules")) {
+  fs::dir_delete("docs/rules")
+}
+fs::dir_create("docs/rules")
 
 rule_dirs <- list.files("src/lints", full.names = TRUE)
 rule_dirs <- rule_dirs[!grepl("mod.rs", rule_dirs)]
-
 rule_names <- basename(rule_dirs)
+
+### Create individual qmd files for rules
 
 rule_files <- paste0(rule_dirs, "/", rule_names, ".rs")
 
@@ -23,12 +30,23 @@ docs <- lapply(rule_files, \(x) {
   doc
 })
 
+empty_docs <- lengths(docs) == 0
+docs <- docs[!empty_docs]
+rule_names <- rule_names[!empty_docs]
 names(docs) <- rule_names
 
 for (i in seq_along(docs)) {
-  if (length(docs[[i]]) == 0) {
-    next
-  }
   to_write <- c(paste0("# `", rule_names[i], "`"), docs[[i]])
   writeLines(to_write, paste0("docs/rules/", rule_names[i], ".qmd"))
 }
+
+### Automatically add new rules in _quarto.yml
+
+# Not the same as `rule_names` since we discarded those that don't have any
+# docs yet
+doc_names <- sort(rule_names)
+
+quarto_yml <- read_yaml("docs/_quarto.yml")
+quarto_yml$website$sidebar[[1]]$contents <- c("rules.qmd", paste0("rules/", doc_names, ".qmd"))
+write_yaml(quarto_yml, "docs/_quarto.yml", handlers = list(
+  logical = verbatim_logical))

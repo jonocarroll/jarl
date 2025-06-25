@@ -1,39 +1,29 @@
 project:
   type: website
-
 website:
-  title: "flir"
+  title: flir
   navbar:
     search: true
     left:
-      - text: "Home"
-        href: index.qmd
-      - text: "Rules"
-        href: rules.qmd
-      - text: "Development"
-        href: development.qmd
-      - text: "About"
-        href: about.qmd
-
+    - text: Home
+      href: index.qmd
+    - text: Rules
+      href: rules.qmd
+    - text: Development
+      href: development.qmd
+    - text: About
+      href: about.qmd
   sidebar:
-    - title: "Rules"
-      style: "docked"
-      background: light
-      contents:
-        - rules.qmd
-        - rules/any_duplicated.qmd
-        - rules/any_is_na.qmd
-        - rules/class_equals.qmd
-        - rules/duplicated_arguments.qmd
-        - rules/equal_assignment.qmd
-        - rules/equals_na.qmd
-        - rules/length_levels.qmd
-
-
-# format:
-#   html:
-#     theme:
-#       - cosmo
-#       - brand
-#     css: styles.css
-#     toc: true
+  - title: Rules
+    style: docked
+    background: light
+    contents:
+    - rules.qmd
+    - rules/any_duplicated.qmd
+    - rules/any_is_na.qmd
+    - rules/class_equals.qmd
+    - rules/duplicated_arguments.qmd
+    - rules/equal_assignment.qmd
+    - rules/equals_na.qmd
+    - rules/length_levels.qmd
+    - rules/length_test.qmd
