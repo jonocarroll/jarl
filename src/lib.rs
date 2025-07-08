@@ -1,4 +1,5 @@
 // pub mod analyze;
+pub mod check;
 pub mod check_ast;
 pub mod config;
 pub mod fix;

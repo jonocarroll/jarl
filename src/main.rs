@@ -5,17 +5,12 @@ use air_workspace::discovery::DiscoveredSettings;
 use air_workspace::resolve::PathResolver;
 use air_workspace::settings::Settings;
 
-use flir::check_ast::*;
+use flir::check::check;
 use flir::config::build_config;
-use flir::fix::*;
-use flir::message::*;
 
 use clap::{arg, Parser};
-use rayon::prelude::*;
-use std::fs;
-use std::path::Path;
 // use std::time::Instant;
-use anyhow::{Context, Result};
+use anyhow::Result;
 
 /// Simple program to greet a person
 #[derive(Parser, Debug)]
@@ -65,51 +60,19 @@ fn main() -> Result<()> {
         .collect::<Vec<_>>();
     // let paths = vec![Path::new("demos/foo.R").to_path_buf()];
 
-    let config = build_config(&args.rules);
-
     let parser_options = RParserOptions::default();
-    let result: Result<Vec<Diagnostic>, anyhow::Error> = paths
-        .par_iter()
-        .map(|file| {
-            let mut checks: Vec<Diagnostic>;
-            let mut has_skipped_fixes = true;
-            loop {
-                // Add file context to the read error
-                let contents = fs::read_to_string(Path::new(file))
-                    .with_context(|| format!("Failed to read file: {}", file.display()))?;
+    let config = build_config(&args.rules, args.fix, parser_options);
 
-                // Add file context to the get_checks error
-                checks = get_checks(&contents, file, parser_options, config.clone()).with_context(
-                    || format!("Failed to get checks for file: {}", file.display()),
-                )?;
+    let diagnostics = check(paths, config);
 
-                if !has_skipped_fixes || !args.fix {
-                    break;
-                }
-
-                let (new_has_skipped_fixes, fixed_text) = apply_fixes(&checks, &contents);
-                has_skipped_fixes = new_has_skipped_fixes;
-
-                // Add file context to the write error
-                fs::write(file, fixed_text)
-                    .with_context(|| format!("Failed to write file: {}", file.display()))?;
-            }
-
-            if !args.fix && !checks.is_empty() {
-                for message in &checks {
+    match diagnostics {
+        Ok(diags) => {
+            if !args.fix && !diags.is_empty() {
+                for message in &diags {
                     println!("{}", message);
                 }
             }
-            Ok(checks)
-        })
-        .flat_map(|result| match result {
-            Ok(checks) => checks.into_par_iter().map(Ok).collect::<Vec<_>>(),
-            Err(e) => vec![Err(e)],
-        })
-        .collect();
-
-    match result {
-        Ok(_) => (),
+        }
         Err(e) => {
             eprintln!("{:?}", e);
         }
