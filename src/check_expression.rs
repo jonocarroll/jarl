@@ -132,9 +132,14 @@ pub fn check_expression(
             analyze::identifier::identifier(x, checker)?;
         }
         air_r_syntax::AnyRExpression::RIfStatement(children) => {
-            let RIfStatementFields { condition, consequence, .. } = children.as_fields();
+            let RIfStatementFields { condition, consequence, else_clause, .. } =
+                children.as_fields();
             check_expression(&condition?, checker)?;
             check_expression(&consequence?, checker)?;
+            if let Some(else_clause) = else_clause {
+                let alternative = else_clause.alternative();
+                check_expression(&alternative?, checker)?;
+            }
         }
         air_r_syntax::AnyRExpression::RParenthesizedExpression(children) => {
             let body = children.body();
