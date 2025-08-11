@@ -35,17 +35,13 @@ impl Checker {
         }
     }
 
-    pub(crate) fn is_rule_enabled(
-        &mut self,
-        rule: &str,
-        minimum_r_version: Option<(u32, u32)>,
-    ) -> bool {
+    pub(crate) fn is_rule_enabled(&mut self, rule: &str) -> bool {
         self.rules.enabled.iter().any(|r| {
             r.name == rule
                 && r.should_fix
-                && (minimum_r_version.is_none()
-                    || (minimum_r_version.is_some()
-                        && r.minimum_r_version.unwrap() >= minimum_r_version.unwrap()))
+                && (self.minimum_r_version.is_none()
+                    || (self.minimum_r_version.is_some()
+                        && r.minimum_r_version.unwrap() >= self.minimum_r_version.unwrap()))
         })
     }
 }
