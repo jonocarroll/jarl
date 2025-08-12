@@ -166,6 +166,15 @@ pub fn check_expression(
                 }
             }
         }
+        AnyRExpression::RSubset2(children) => {
+            let arguments: Vec<_> = children.arguments()?.items().into_iter().collect();
+
+            for expr in arguments {
+                if let Some(expr) = expr?.value() {
+                    check_expression(&expr, checker)?;
+                }
+            }
+        }
         AnyRExpression::RUnaryExpression(children) => {
             let argument = children.argument();
             check_expression(&argument?, checker)?;
