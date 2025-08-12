@@ -1,12 +1,13 @@
+use biome_rowan::TextRange;
+use colored::Colorize;
+use serde::{Deserialize, Serialize};
 use std::fmt;
 use std::path::PathBuf;
 
 use crate::location::Location;
-use biome_rowan::TextRange;
-use colored::Colorize;
-use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
+// The fix to apply to the violation.
 pub struct Fix {
     pub content: String,
     pub start: usize,
@@ -32,24 +33,25 @@ pub trait Violation {
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-pub struct DiagnosticKind {
+pub struct ViolationData {
     pub name: String,
     pub body: String,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
+// The object that is eventually reported and printed in the console.
 pub struct Diagnostic {
-    pub message: DiagnosticKind,
+    // The name and description of the violated rule.
+    pub message: ViolationData,
+    // Location of the violated rule.
     pub filename: PathBuf,
     pub range: TextRange,
     pub location: Option<Location>,
+    // Fix to apply if the user passed `--fix`.
     pub fix: Fix,
 }
 
-impl<T> From<T> for DiagnosticKind
-where
-    T: Violation,
-{
+impl<T: Violation> From<T> for ViolationData {
     fn from(value: T) -> Self {
         Self {
             name: Violation::name(&value),
@@ -58,14 +60,14 @@ where
     }
 }
 
-impl DiagnosticKind {
+impl ViolationData {
     pub fn empty() -> Self {
         Self { name: "".to_string(), body: "".to_string() }
     }
 }
 
 impl Diagnostic {
-    pub fn new<T: Into<DiagnosticKind>>(message: T, range: TextRange, fix: Fix) -> Self {
+    pub fn new<T: Into<ViolationData>>(message: T, range: TextRange, fix: Fix) -> Self {
         Self {
             message: message.into(),
             range,
@@ -76,7 +78,7 @@ impl Diagnostic {
     }
     pub fn empty() -> Self {
         Self {
-            message: DiagnosticKind::empty(),
+            message: ViolationData::empty(),
             range: TextRange::empty(0.into()),
             location: None,
             fix: Fix::empty(),

@@ -3,20 +3,27 @@ use air_r_syntax::RForStatementFields;
 use air_r_syntax::{
     AnyRExpression, RBinaryExpressionFields, RIfStatementFields, RWhileStatementFields,
 };
+use anyhow::Result;
+use std::path::Path;
 
 use crate::analyze;
 use crate::config::Config;
 use crate::message::*;
 use crate::rule_table::RuleTable;
 use crate::utils::*;
-use anyhow::Result;
-use std::path::Path;
 
 #[derive(Debug)]
-// The object that will collect diagnostics in check_expressions().
+// The object that will collect diagnostics in check_expressions(). One per
+// analyzed file.
 pub struct Checker {
+    // The diagnostics to report (possibly empty).
     pub diagnostics: Vec<Diagnostic>,
+    // A vector of `Rule`. A `rule` contains the name of the rule to apply,
+    // whether it is safe to fix, unsafe to fix, or doesn't have a fix, and
+    // the minimum R version from which this rule is available.
     pub rules: RuleTable,
+    // The R version that is manually passed by the user in the CLI. Any rule
+    // that has a minimum R version higher than this value will be deactivated.
     pub minimum_r_version: Option<(u32, u32)>,
 }
 
@@ -29,6 +36,8 @@ impl Checker {
         }
     }
 
+    // This takes an Option<Diagnostic> because each lint rule reports a
+    // Some(Diagnostic) or None.
     pub(crate) fn report_diagnostic(&mut self, diagnostic: Option<Diagnostic>) {
         if let Some(diagnostic) = diagnostic {
             self.diagnostics.push(diagnostic);
@@ -38,7 +47,7 @@ impl Checker {
     pub(crate) fn is_rule_enabled(&mut self, rule: &str) -> bool {
         self.rules.enabled.iter().any(|r| {
             r.name == rule
-                && r.should_fix
+                && r.should_fix // TODO: this shouldn't affect lint reporting
                 && (self.minimum_r_version.is_none()
                     || (self.minimum_r_version.is_some()
                         && r.minimum_r_version.unwrap() >= self.minimum_r_version.unwrap()))
@@ -46,6 +55,11 @@ impl Checker {
     }
 }
 
+// Takes the R code as a string, parses it, and obtains a (possibly empty)
+// vector of `Diagnostic`s.
+//
+// If there are diagnostics to report, this is also where their range in the
+// string is converted to their location (row, column).
 pub fn get_checks(contents: &str, file: &Path, config: Config) -> Result<Vec<Diagnostic>> {
     let parser_options = RParserOptions::default();
     let parsed = air_r_parser::parse(contents, parser_options);
@@ -83,8 +97,8 @@ pub fn get_checks(contents: &str, file: &Path, config: Config) -> Result<Vec<Dia
 // - apply the function recursively to the expression's children (if any, which
 //   is not guaranteed, e.g. for RIdentifier).
 //
-// Some expression types do both (e.g. RBinaryExpression), some do only the
-// dispatch to rules (e.g. RIdentifier), some do only the recursive call (e.g.
+// Some expression types do both (e.g. RBinaryExpression), some only do the
+// dispatch to rules (e.g. RIdentifier), some only do the recursive call (e.g.
 // RFunctionDefinition).
 //
 // Not all patterns are covered but they don't necessarily have to be.
