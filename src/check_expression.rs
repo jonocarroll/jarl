@@ -86,6 +86,14 @@ pub fn get_checks(contents: &str, file: &Path, config: Config) -> Result<Vec<Dia
 // Some expression types do both (e.g. RBinaryExpression), some do only the
 // dispatch to rules (e.g. RIdentifier), some do only the recursive call (e.g.
 // RFunctionDefinition).
+//
+// Not all patterns are covered but they don't necessarily have to be.
+// For instance, there are currently no rule for RNaExpression and
+// it doesn't have any children expression on which we need to call
+// check_expression().
+//
+// If a rule needs to be applied on RNaExpression in the future, then
+// we can add the corresponding match arm at this moment.
 pub fn check_expression(
     expression: &air_r_syntax::AnyRExpression,
     checker: &mut Checker,
@@ -167,13 +175,6 @@ pub fn check_expression(
             check_expression(&condition?, checker)?;
             check_expression(&body?, checker)?;
         }
-        // Not all patterns are covered but they don't necessarily have to be.
-        // For instance, there are currently no rule for RNaExpression and
-        // it doesn't have any children expression on which we need to call
-        // check_expression().
-        //
-        // If a rule needs to be applied on RNaExpression in the future, then
-        // we can add the corresponding match arm at this moment.
         _ => {}
     }
 
