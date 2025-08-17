@@ -4,6 +4,7 @@ use air_workspace::discovery::discover_settings;
 use air_workspace::resolve::PathResolver;
 use air_workspace::settings::Settings;
 
+use colored::Colorize;
 use flir::args::CliArgs;
 use flir::check::check;
 use flir::config::build_config;
@@ -30,6 +31,15 @@ fn main() -> Result<()> {
         .into_iter()
         .filter_map(Result::ok)
         .collect::<Vec<_>>();
+
+    if paths.is_empty() {
+        println!(
+            "{}: {}",
+            "Warning".yellow().bold(),
+            "No R files found under the given path(s).".white().bold()
+        );
+        return Ok(());
+    }
 
     // use std::path::Path;
     // let paths = vec![Path::new("demos/foo.R").to_path_buf()];
