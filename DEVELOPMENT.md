@@ -22,13 +22,17 @@ src/lints/any_duplicated/
 
 ## Adding a new rule
 
-This requires three main steps:
+This requires four main steps:
 
 1. Add the new rule to the list in `src/lints/mod.rs`. In the same file, also add `pub(crate) mod <rulename>;`
 1. Add a subfolder with the rule name in `src/lints`. Add the documentation and the code for the rule.
 1. Add tests in `src/lints/<rulename>/mod.rs`
+1. Add the rule in the `src/analyze` folder. This depends on the initial node in the AST. For instance, for the rule `"equals_na"`, we check the presence of code such as `x == NA`. Since the top node for this expression is a `R_BINARY_EXPRESSION`, this rule is ran in  `src/analyze/binary_expression.rs`.
 
 See below some useful commands for the development.
+
+
+
 
 ## Useful commands
 
