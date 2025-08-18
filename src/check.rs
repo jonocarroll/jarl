@@ -42,10 +42,10 @@ pub fn check_path(path: &PathBuf, config: Config) -> Result<Vec<Diagnostic>, any
 pub fn lint_only(path: &PathBuf, config: Config) -> Result<Vec<Diagnostic>, anyhow::Error> {
     let path = relativize_path(path);
     let contents = fs::read_to_string(Path::new(&path))
-        .with_context(|| format!("Failed to read file: {}", path))?;
+        .with_context(|| format!("Failed to read file: {path}"))?;
 
     let checks = get_checks(&contents, &PathBuf::from(&path), config.clone())
-        .with_context(|| format!("Failed to get checks for file: {}", path))?;
+        .with_context(|| format!("Failed to get checks for file: {path}"))?;
 
     Ok(checks)
 }

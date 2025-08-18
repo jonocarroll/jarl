@@ -64,5 +64,5 @@ pub fn any_duplicated(ast: &RCall) -> Result<Option<Diagnostic>> {
         return Ok(Some(diagnostic));
     }
 
-    return Ok(None);
+    Ok(None)
 }

@@ -28,8 +28,8 @@ impl RuleTable {
         self.enabled.push(Rule {
             name: rule.to_string(),
             categories: categories.split(',').map(|s| s.to_string()).collect(),
-            should_fix: should_fix,
-            minimum_r_version: minimum_r_version,
+            should_fix,
+            minimum_r_version,
         });
     }
 

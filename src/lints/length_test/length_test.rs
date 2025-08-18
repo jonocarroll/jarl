@@ -53,7 +53,7 @@ pub fn length_test(ast: &RCall) -> Result<Option<Diagnostic>> {
     let mut lhs: String = "".to_string();
     let mut rhs: String = "".to_string();
 
-    match arguments.into_iter().nth(0) {
+    match arguments.into_iter().next() {
         Some(first_arg) => {
             if let Ok(x) = first_arg {
                 let RArgumentFields { name_clause: _, value } = x.as_fields();

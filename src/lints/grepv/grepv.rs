@@ -80,5 +80,5 @@ pub fn grepv(ast: &RCall) -> Result<Option<Diagnostic>> {
         },
     );
 
-    return Ok(Some(diagnostic));
+    Ok(Some(diagnostic))
 }

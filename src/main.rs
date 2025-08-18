@@ -65,8 +65,7 @@ fn main() -> Result<()> {
         }
         if n_diagnostic_with_fixes > 0 {
             println!(
-                "{} fixable with the `--fix` option.",
-                n_diagnostic_with_fixes
+                "{n_diagnostic_with_fixes} fixable with the `--fix` option."
             )
         }
     } else {

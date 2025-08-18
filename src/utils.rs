@@ -268,9 +268,9 @@ pub fn get_nested_functions_content(
 
         let inner_content = arguments?.items().into_syntax().text().to_string();
 
-        return Ok(Some(inner_content));
+        Ok(Some(inner_content))
     } else {
-        return Ok(None);
+        Ok(None)
     }
 }
 

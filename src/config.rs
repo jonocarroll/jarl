@@ -68,19 +68,19 @@ pub fn parse_r_version(min_r_version: &Option<String>) -> Result<Option<(u32, u3
         // Check if the version contains exactly one dot and two parts
         if !min_r_version.contains('.') || min_r_version.split('.').count() != 2 {
             return Err(
-                anyhow::anyhow!("Invalid version format. Expected 'x.y', e.g., '4.3'").into(),
+                anyhow::anyhow!("Invalid version format. Expected 'x.y', e.g., '4.3'"),
             );
         }
 
         // Split by dot and try to parse each part as an integer
         let parts: Vec<&str> = min_r_version.split('.').collect();
-        if let (Some(major), Some(minor)) = (parts.get(0), parts.get(1)) {
+        if let (Some(major), Some(minor)) = (parts.first(), parts.get(1)) {
             match (major.parse::<u32>(), minor.parse::<u32>()) {
                 (Ok(major), Ok(minor)) => Ok(Some((major, minor))),
-                _ => Err(anyhow::anyhow!("Version parts should be valid integers.").into()),
+                _ => Err(anyhow::anyhow!("Version parts should be valid integers.")),
             }
         } else {
-            Err(anyhow::anyhow!("Unexpected error in version parsing.").into())
+            Err(anyhow::anyhow!("Unexpected error in version parsing."))
         }
     } else {
         Ok(None)
