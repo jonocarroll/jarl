@@ -95,3 +95,26 @@ fn test_several_lints_several_files() -> anyhow::Result<()> {
 
     Ok(())
 }
+
+#[test]
+fn test_not_all_fixable_lints() -> anyhow::Result<()> {
+    let directory = TempDir::new()?;
+    let directory = directory.path();
+
+    let test_path = "test.R";
+    let test_contents = "any(is.na(x))";
+    std::fs::write(directory.join(test_path), test_contents)?;
+
+    let test_path_2 = "test2.R";
+    let test_contents_2 = "list(x = 1, x = 2)";
+    std::fs::write(directory.join(test_path_2), test_contents_2)?;
+
+    insta::assert_snapshot!(
+        &mut Command::new(binary_path())
+            .current_dir(directory)
+            .run()
+            .normalize_os_executable_name()
+    );
+
+    Ok(())
+}
