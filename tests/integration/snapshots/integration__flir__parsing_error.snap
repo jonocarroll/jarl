@@ -3,13 +3,10 @@ source: tests/integration/flir.rs
 expression: "&mut\nCommand::new(binary_path()).current_dir(directory).run().normalize_os_executable_name()"
 ---
 success: false
-exit_code: 1
+exit_code: 2
 ----- stdout -----
 
 ----- stderr -----
-Error: Failed to get checks for file: test.R
-
-Caused by:
-    Couldn't parse test.R
+error: Failed to get checks for file: test.R
 
 ----- args -----

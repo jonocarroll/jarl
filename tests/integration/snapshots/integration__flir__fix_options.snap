@@ -2,8 +2,8 @@
 source: tests/integration/flir.rs
 expression: "&mut\nCommand::new(binary_path()).current_dir(directory).arg(\"--fix\").run().normalize_os_executable_name()"
 ---
-success: true
-exit_code: 0
+success: false
+exit_code: 1
 ----- stdout -----
 All checks passed!
 

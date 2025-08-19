@@ -11,9 +11,20 @@ use flir::config::build_config;
 
 use anyhow::Result;
 use clap::Parser;
+use std::process::ExitCode;
 use std::time::Instant;
 
-fn main() -> Result<()> {
+fn main() -> ExitCode {
+    match run() {
+        Ok(code) => code,
+        Err(err) => {
+            eprintln!("error: {err}");
+            ExitCode::from(2)
+        }
+    }
+}
+
+fn run() -> Result<ExitCode> {
     let args = CliArgs::parse();
 
     let start = if args.with_timing {
@@ -38,7 +49,7 @@ fn main() -> Result<()> {
             "Warning".yellow().bold(),
             "No R files found under the given path(s).".white().bold()
         );
-        return Ok(());
+        return Ok(ExitCode::from(0));
     }
 
     // use std::path::Path;
@@ -48,7 +59,12 @@ fn main() -> Result<()> {
 
     let mut diagnostics = check(config)?;
 
-    if !args.fix && !diagnostics.is_empty() {
+    if diagnostics.is_empty() {
+        println!("All checks passed!");
+        return Ok(ExitCode::from(0));
+    }
+
+    if !args.fix {
         let mut n_diagnostic_with_fixes = 0usize;
         let mut n_diagnostic_with_unsafe_fixes = 0usize;
         diagnostics.sort();
@@ -86,7 +102,7 @@ fn main() -> Result<()> {
             let label = if n_diagnostic_with_unsafe_fixes == 1 {
                 "1 fix is".to_string()
             } else {
-                format!("{} fixes are", n_diagnostic_with_unsafe_fixes)
+                format!("{n_diagnostic_with_unsafe_fixes} fixes are")
             };
             println!("{label} available with the `--fix --unsafe-fixes` option.");
         }
@@ -99,5 +115,5 @@ fn main() -> Result<()> {
         println!("\nChecked files in: {duration:?}");
     }
 
-    Ok(())
+    Ok(ExitCode::from(1))
 }
