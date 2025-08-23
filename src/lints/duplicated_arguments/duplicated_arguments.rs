@@ -37,15 +37,27 @@ pub fn duplicated_arguments(ast: &RCall) -> Result<Option<Diagnostic>> {
     let RCallFields { function, arguments } = ast.as_fields();
 
     let fun_name = match function? {
-        AnyRExpression::RNamespaceExpression(x) => x.right()?.into_syntax().text_trimmed(),
-        AnyRExpression::RExtractExpression(x) => x.right()?.into_syntax().text_trimmed(),
-        AnyRExpression::RCall(x) => x.function()?.into_syntax().text_trimmed(),
-        AnyRExpression::RSubset(x) => x.arguments()?.into_syntax().text_trimmed(),
-        AnyRExpression::RSubset2(x) => x.arguments()?.into_syntax().text_trimmed(),
-        AnyRExpression::RIdentifier(x) => x.into_syntax().text_trimmed(),
-        AnyRExpression::AnyRValue(x) => x.into_syntax().text_trimmed(),
-        AnyRExpression::RParenthesizedExpression(x) => x.body()?.into_syntax().text_trimmed(),
-        AnyRExpression::RReturnExpression(x) => x.into_syntax().text_trimmed(),
+        AnyRExpression::RNamespaceExpression(x) => {
+            x.right()?.into_syntax().text_trimmed().to_string()
+        }
+        AnyRExpression::RBracedExpressions(x) => x
+            .expressions()
+            .into_iter()
+            .map(|x| x.to_string())
+            .collect::<Vec<String>>()
+            .join(""),
+        AnyRExpression::RExtractExpression(x) => {
+            x.right()?.into_syntax().text_trimmed().to_string()
+        }
+        AnyRExpression::RCall(x) => x.function()?.into_syntax().text_trimmed().to_string(),
+        AnyRExpression::RSubset(x) => x.arguments()?.into_syntax().text_trimmed().to_string(),
+        AnyRExpression::RSubset2(x) => x.arguments()?.into_syntax().text_trimmed().to_string(),
+        AnyRExpression::RIdentifier(x) => x.into_syntax().text_trimmed().to_string(),
+        AnyRExpression::AnyRValue(x) => x.into_syntax().text_trimmed().to_string(),
+        AnyRExpression::RParenthesizedExpression(x) => {
+            x.body()?.into_syntax().text_trimmed().to_string()
+        }
+        AnyRExpression::RReturnExpression(x) => x.into_syntax().text_trimmed().to_string(),
         _ => {
             return Err(anyhow!(
                 "couldn't find function name for duplicated_arguments linter.",
@@ -54,7 +66,7 @@ pub fn duplicated_arguments(ast: &RCall) -> Result<Option<Diagnostic>> {
     };
 
     let whitelisted_funs = ["c", "mutate", "summarize", "transmute"];
-    if whitelisted_funs.contains(&fun_name.to_string().as_str()) {
+    if whitelisted_funs.contains(&fun_name.as_str()) {
         return Ok(None);
     }
 
