@@ -1,6 +1,6 @@
 ---
-source: src/lints/equal_assignment/mod.rs
-expression: fix_output
+source: src/lints/assignment/mod.rs
+expression: "get_fixed_text(vec![\"blah=1\", \"blah = 1\", \"blah = fun(1)\",\n\"fun((blah = fun(1)))\", \"1 -> fun\",], \"assignment\", None)"
 ---
   OLD:
   ====

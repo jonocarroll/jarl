@@ -2,10 +2,10 @@ use crate::rule_table::{FixStatus, RuleTable};
 
 pub(crate) mod any_duplicated;
 pub(crate) mod any_is_na;
+pub(crate) mod assignment;
 pub(crate) mod class_equals;
 pub(crate) mod duplicated_arguments;
 pub(crate) mod empty_assignment;
-pub(crate) mod equal_assignment;
 pub(crate) mod equals_na;
 pub(crate) mod grepv;
 pub(crate) mod is_numeric;
@@ -29,10 +29,10 @@ pub fn all_rules_and_safety() -> RuleTable {
     let mut rule_table = RuleTable::empty();
     rule_table.enable("any_duplicated", "PERF", FixStatus::Safe, None);
     rule_table.enable("any_is_na", "PERF", FixStatus::Safe, None);
+    rule_table.enable("assignment", "READ", FixStatus::Safe, None);
     rule_table.enable("class_equals", "SUSP", FixStatus::Unsafe, None);
     rule_table.enable("duplicated_arguments", "SUSP", FixStatus::None, None);
     rule_table.enable("empty_assignment", "READ", FixStatus::Safe, None);
-    rule_table.enable("equal_assignment", "READ", FixStatus::Safe, None);
     rule_table.enable("equals_na", "CORR", FixStatus::Safe, None);
     rule_table.enable("grepv", "READ", FixStatus::Safe, Some((4, 5)));
     rule_table.enable("is_numeric", "READ", FixStatus::Safe, None);

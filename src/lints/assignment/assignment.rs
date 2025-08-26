@@ -35,14 +35,14 @@ pub struct EqualAssignment;
 /// * https://stackoverflow.com/a/1742550
 impl Violation for EqualAssignment {
     fn name(&self) -> String {
-        "equal_assignment".to_string()
+        "assignment".to_string()
     }
     fn body(&self) -> String {
         "Use <- for assignment.".to_string()
     }
 }
 
-pub fn equal_assignment(ast: &RBinaryExpression) -> Result<Option<Diagnostic>> {
+pub fn assignment(ast: &RBinaryExpression) -> Result<Option<Diagnostic>> {
     let RBinaryExpressionFields { left, operator, right } = ast.as_fields();
 
     let operator = operator?;
