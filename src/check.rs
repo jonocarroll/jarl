@@ -85,7 +85,7 @@ pub struct Checker {
     pub rules: RuleTable,
     // The R version that is manually passed by the user in the CLI. Any rule
     // that has a minimum R version higher than this value will be deactivated.
-    pub minimum_r_version: Option<(u32, u32)>,
+    pub minimum_r_version: Option<(u32, u32, u32)>,
 }
 
 impl Checker {
@@ -106,13 +106,7 @@ impl Checker {
     }
 
     pub(crate) fn is_rule_enabled(&mut self, rule: &str) -> bool {
-        self.rules.enabled.iter().any(|r| {
-            r.name == rule
-                && (self.minimum_r_version.is_none()
-                    || r.minimum_r_version.is_none()
-                    || (self.minimum_r_version.is_some()
-                        && r.minimum_r_version.unwrap() <= self.minimum_r_version.unwrap()))
-        })
+        self.rules.enabled.iter().any(|r| r.name == rule)
     }
 }
 

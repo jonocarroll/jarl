@@ -1,5 +1,5 @@
 ---
-source: tests/integration/flir.rs
+source: tests/integration/min_r_version.rs
 expression: "&mut\nCommand::new(binary_path()).current_dir(directory).arg(\".\").run().normalize_os_executable_name()"
 ---
 success: true
