@@ -244,7 +244,7 @@ fn get_invalid_rules(
     let all_rules_set: HashSet<_> = all_rule_names.iter().map(|x| x.name.clone()).collect();
 
     let invalid_rules: Vec<String> = rules_passed_by_user
-        .into_iter()
+        .iter()
         .filter(|rule| !all_rules_set.contains(&rule.to_string()))
         .map(|x| x.to_string())
         .collect();

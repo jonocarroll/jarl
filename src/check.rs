@@ -200,7 +200,7 @@ pub fn check_expression(
             }
         }
         AnyRExpression::RForStatement(children) => {
-            analyze::for_loop::for_loop(&children, checker)?;
+            analyze::for_loop::for_loop(children, checker)?;
             let RForStatementFields { variable, sequence, body, .. } = children.as_fields();
             analyze::identifier::identifier(&variable?, checker)?;
 

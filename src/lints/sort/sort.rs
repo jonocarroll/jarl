@@ -56,7 +56,7 @@ pub fn sort(ast: &RSubset) -> anyhow::Result<Option<Diagnostic>> {
     }
 
     // Safety: we know that `inside_brackets` contains a single element.
-    let arg = inside_brackets.get(0).unwrap().clone()?;
+    let arg = inside_brackets.first().unwrap().clone()?;
 
     // No lint for x[foo = order(x)].
     if arg.name_clause().is_some() {
@@ -84,7 +84,7 @@ pub fn sort(ast: &RSubset) -> anyhow::Result<Option<Diagnostic>> {
         return Ok(None);
     }
     // Safety: we know that `values` contains a single element.
-    let values = values.get(0).unwrap();
+    let values = values.first().unwrap();
     if values.to_trimmed_text() != function_outer.to_trimmed_text() {
         return Ok(None);
     }

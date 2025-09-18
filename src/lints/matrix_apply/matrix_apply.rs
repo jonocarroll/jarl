@@ -118,10 +118,10 @@ pub fn matrix_apply(ast: &RCall) -> anyhow::Result<Option<Diagnostic>> {
     };
 
     let fix = match (fun, margin) {
-        ("mean", "1") => format!("rowMeans({}{})", x, fix_na_rm),
-        ("mean", "2") => format!("colMeans({}{})", x, fix_na_rm),
-        ("sum", "1") => format!("rowSums({}{})", x, fix_na_rm),
-        ("sum", "2") => format!("colSums({}{})", x, fix_na_rm),
+        ("mean", "1") => format!("rowMeans({x}{fix_na_rm})"),
+        ("mean", "2") => format!("colMeans({x}{fix_na_rm})"),
+        ("sum", "1") => format!("rowSums({x}{fix_na_rm})"),
+        ("sum", "2") => format!("colSums({x}{fix_na_rm})"),
         _ => unreachable!(),
     };
 

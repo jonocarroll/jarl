@@ -48,9 +48,9 @@ pub fn for_loop_index(ast: &RForStatement) -> anyhow::Result<Option<Diagnostic>>
     if contains_identifier(&sequence, &variable_text)? {
         let range = ast.syntax().text_trimmed_range();
         let diagnostic = Diagnostic::new(ForLoopIndex, range, Fix::empty());
-        return Ok(Some(diagnostic));
+        Ok(Some(diagnostic))
     } else {
-        return Ok(None);
+        Ok(None)
     }
 }
 

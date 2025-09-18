@@ -61,9 +61,9 @@ impl Emitter for ConciseEmitter {
                     unreachable!("Row/col locations must have been parsed successfully before.")
                 }
             };
-            write!(
+            writeln!(
                 writer,
-                "{} [{}:{}] {} {}\n",
+                "{} [{}:{}] {} {}",
                 relativize_path(diagnostic.filename.clone()).white(),
                 row,
                 col,
@@ -84,7 +84,7 @@ impl Emitter for ConciseEmitter {
         // many can be fixed.
         if total_diagnostics > 0 {
             if total_diagnostics > 1 {
-                println!("\nFound {} errors.", total_diagnostics);
+                println!("\nFound {total_diagnostics} errors.");
             } else {
                 println!("\nFound 1 error.");
             }

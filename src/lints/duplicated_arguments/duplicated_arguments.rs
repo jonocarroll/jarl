@@ -88,7 +88,7 @@ pub fn duplicated_arguments(ast: &RCall) -> anyhow::Result<Option<Diagnostic>> {
 
     let duplicated_arg_names = get_duplicates(&arg_names);
 
-    if duplicated_arg_names.len() > 0 {
+    if !duplicated_arg_names.is_empty() {
         let range = ast.syntax().text_trimmed_range();
         let diagnostic = Diagnostic::new(
             ViolationData::new(
@@ -97,7 +97,7 @@ pub fn duplicated_arguments(ast: &RCall) -> anyhow::Result<Option<Diagnostic>> {
                     "Avoid duplicate arguments in function calls. Duplicated argument(s): ",
                     &duplicated_arg_names
                         .iter()
-                        .map(|s| format!("\"{}\"", s))
+                        .map(|s| format!("\"{s}\""))
                         .collect::<Vec<String>>()
                         .join(", "),
                     ".",
