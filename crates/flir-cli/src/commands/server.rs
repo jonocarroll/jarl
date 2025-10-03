@@ -1,16 +1,20 @@
 // use crate::args::LanguageServerCommand;
 use crate::{args::ServerCommand, status::ExitStatus};
 
-// #[tokio::main]
-// pub(crate) async fn server(_command: LanguageServerCommand) -> anyhow::Result<ExitStatus> {
-//     // Returns after shutdown
-//     lsp::start_lsp(tokio::io::stdin(), tokio::io::stdout()).await;
-
-//     Ok(ExitStatus::Success)
-// }
 pub(crate) fn server(_command: ServerCommand) -> anyhow::Result<ExitStatus> {
-    // Returns after shutdown
-    // lsp::start_lsp(tokio::io::stdin(), tokio::io::stdout()).await;
+    eprintln!("FLIR CLI: Starting server command");
 
-    Ok(ExitStatus::Success)
+    match flir_lsp::run() {
+        Ok(()) => {
+            eprintln!("FLIR CLI: LSP server completed successfully");
+            Ok(ExitStatus::Success)
+        }
+        Err(e) => {
+            eprintln!("FLIR CLI: LSP server failed with error: {e}");
+            for cause in e.chain() {
+                eprintln!("  Caused by: {cause}");
+            }
+            Err(e)
+        }
+    }
 }

@@ -33,10 +33,10 @@ There are two important functions for this:
 * [`check()`](https://github.com/astral-sh/ruff/blob/c7372d218de365c8298afb37530ee26999ba91b0/crates/ruff/src/commands/check.rs) takes the list of paths, config args, cache, etc. It resolves the paths, does more checks, runs `lint_path()` in parallel, aggregates the output and reports it.
 * `lint_path()` is where we get the cached output if the file didn't change, and then run the lint functions. Depending on whether we lint only or fix the file as well, this calls [`lint_only()`](https://github.com/astral-sh/ruff/blob/2362263d5e4db815d18e80e599a09f367e53fb92/crates/ruff_linter/src/linter.rs#L462) or `lint_fix()`. Both of those functions call `check_path()` to generate the diagnostics (and lint_fix() then parses those diagnostics and loops through fixes until stability).
 
-`check_path()` creates a `context` that accumulates all the diagnostics. 
+`check_path()` creates a `context` that accumulates all the diagnostics.
 Again, it dispatches checks between several functions:
 
-- `check_tokens()`: for cases like  empty comment, invalid character, useless semicolon, etc. 
+- `check_tokens()`: for cases like  empty comment, invalid character, useless semicolon, etc.
 - `check_filepath()`: for cases such as checking module imports, this kind of thing. I think I can ignore it.
 - `check_logical_lines()`: whitespace after bracket, etc.
 - `check_ast()` => the one I'm interested in.
