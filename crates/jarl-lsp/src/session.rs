@@ -433,11 +433,9 @@ mod tests {
         assert!(caps.text_document_sync.is_some());
         assert!(caps.diagnostic_provider.is_none());
 
-        if let Some(sync) = caps.text_document_sync {
-            if let TextDocumentSyncCapability::Options(options) = sync {
-                assert_eq!(options.open_close, Some(true));
-                assert_eq!(options.change, Some(TextDocumentSyncKind::INCREMENTAL));
-            }
+        if let Some(TextDocumentSyncCapability::Options(options)) = caps.text_document_sync {
+            assert_eq!(options.open_close, Some(true));
+            assert_eq!(options.change, Some(TextDocumentSyncKind::INCREMENTAL));
         }
     }
 }
