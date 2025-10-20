@@ -11,6 +11,10 @@ new_content <- c(
   "<!-- MODIFY THE README INSTEAD. -->",
   "<!-- ============ -->",
   "",
+  "---",
+  "toc: false",
+  "---",
+  "",
   new_content
 )
 writeLines(new_content, con = "index.md")
