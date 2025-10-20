@@ -1,5 +1,5 @@
-<div style="text-align: center !important"><h1>jarl</h1></div>
-<div style="text-align: center"><i>Just Another R Linter</i> </div>
+<div align="center"><h1>jarl</h1></div>
+<div align="center"><i>Just Another R Linter</i> </div>
 
 <br>
 
