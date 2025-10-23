@@ -128,7 +128,7 @@ pub fn build_config(
         rules_to_apply
     };
 
-    let assignment_op = parse_assignment(&check_config, toml_settings)?;
+    let assignment_op = parse_assignment(check_config, toml_settings)?;
 
     Ok(Config {
         paths,
@@ -480,30 +480,28 @@ fn parse_assignment(
                 ));
             }
         }
-    } else {
-        if let Some(settings) = toml_settings {
-            let assignment_op = &settings.linter.assignment;
-            if let Some(assignment_op) = assignment_op {
-                match assignment_op.as_str() {
-                    "<-" => {
-                        out = RSyntaxKind::ASSIGN;
-                    }
-                    "=" => {
-                        out = RSyntaxKind::EQUAL;
-                    }
-                    _ => {
-                        return Err(anyhow::anyhow!(
-                            "Invalid value in `--assignment-op`: {}",
-                            assignment_op
-                        ));
-                    }
+    } else if let Some(settings) = toml_settings {
+        let assignment_op = &settings.linter.assignment;
+        if let Some(assignment_op) = assignment_op {
+            match assignment_op.as_str() {
+                "<-" => {
+                    out = RSyntaxKind::ASSIGN;
                 }
-            } else {
-                out = RSyntaxKind::ASSIGN;
+                "=" => {
+                    out = RSyntaxKind::EQUAL;
+                }
+                _ => {
+                    return Err(anyhow::anyhow!(
+                        "Invalid value in `--assignment-op`: {}",
+                        assignment_op
+                    ));
+                }
             }
         } else {
             out = RSyntaxKind::ASSIGN;
         }
+    } else {
+        out = RSyntaxKind::ASSIGN;
     };
 
     Ok(out)
