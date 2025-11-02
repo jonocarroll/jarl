@@ -5,11 +5,12 @@
 
 Jarl is a fast linter[^linter-explanation] for R.
 
-* XXX times faster than `lintr` and XXX times faster than `flir`
+* orders of magnitudes faster than `lintr` and `flir`[^benchmark]
 * automatic fixes when possible
 * support for 20+ [`lintr` rules](https://jarl.etiennebacher.com/rules) (and growing)
 * integration in popular IDEs and editors (VS Code, Positron, Emacs, Vim, ...)
 * CLI available
+* multiple output modes available (concise, detailed, JSON format)
 * built-in CI workflow
 
 Jarl is built on [Air](https://posit-dev.github.io/air/), a fast formatter for R written in Rust.
@@ -17,6 +18,7 @@ Jarl is built on [Air](https://posit-dev.github.io/air/), a fast formatter for R
 <br>
 
 [^linter-explanation]: A code linter is a tool that does static code analysis to search for programming errors, bugs, and suspicious patterns of code.
+[^benchmark]: Using 20 rules on the `dplyr` package (~25k lines of R code), Jarl took 0.131s, `flir` took 4.5s, and `lintr` took 18.5s (9s with caching enabled).
 
 ## Installation
 
@@ -47,8 +49,8 @@ cargo install --git https://github.com/etiennebacher/jarl --profile=release
 ## Acknowledgements
 
 * [`lintr` authors and contributors](https://lintr.r-lib.org/authors.html): while the infrastructure is completely different, all the rule definitions and a large part of the tests are inspired or taken from `lintr`.
-* Davis Vaughan and Lionel Henry, both for their work on Air and for their advices and answers to my questions during the development of `jarl`.
-* R Consortium for funding part of the development of `jarl`.
+* Davis Vaughan and Lionel Henry, both for their work on Air and for their advices and answers to my questions during the development of Jarl.
+* R Consortium for funding part of the development of Jarl.
 * the design of Jarl is heavily inspired by [Ruff](https://docs.astral.sh/ruff) and [Cargo clippy](https://doc.rust-lang.org/stable/clippy/).
 
 ![](r-consortium-logo.png)
