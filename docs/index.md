@@ -9,6 +9,11 @@ toc: false
 
 <div style="text-align: center !important"><h1>jarl</h1></div>
 <div style="text-align: center !important"><i>Just Another R Linter</i> </div>
+<br>
+<div style="text-align: center !important">
+  <a href = "https://jarl.etiennebacher.com/" target = "_blank"><img src="https://img.shields.io/static/v1?label=Docs&message=Visit&color=blue"></a>
+  [![Build status](https://github.com/etiennebacher/jarl/workflows/cargo-test/badge.svg)](https://github.com/etiennebacher/jarl/actions)
+</div>
 
 <br>
 
