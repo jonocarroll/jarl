@@ -22,7 +22,8 @@ targets = [
     "aarch64-apple-darwin",
     # Windows
     "x86_64-pc-windows-msvc",
-    "aarch64-pc-windows-msvc",
+    # TODO: this doesn't compile in the release workflow
+    # "aarch64-pc-windows-msvc",
     # Linux
     "x86_64-unknown-linux-gnu",
     "aarch64-unknown-linux-gnu",
