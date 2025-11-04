@@ -126,10 +126,10 @@ jobs:
         with:
           name: dist-x86_64-pc-windows-msvc
           path: dist
-      - uses: actions/download-artifact@v4
-        with:
-          name: dist-aarch64-pc-windows-msvc
-          path: dist
+      # - uses: actions/download-artifact@v4
+      #   with:
+      #     name: dist-aarch64-pc-windows-msvc
+      #     path: dist
       - run: ls -al ./dist
 
       # Publish to the Code Marketplace.
@@ -169,10 +169,10 @@ jobs:
         with:
           name: dist-x86_64-pc-windows-msvc
           path: dist
-      - uses: actions/download-artifact@v4
-        with:
-          name: dist-aarch64-pc-windows-msvc
-          path: dist
+      # - uses: actions/download-artifact@v4
+      #   with:
+      #     name: dist-aarch64-pc-windows-msvc
+      #     path: dist
       - run: ls -al ./dist
 
       # Publish to OpenVSX.
