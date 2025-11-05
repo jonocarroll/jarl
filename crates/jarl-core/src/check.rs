@@ -21,11 +21,16 @@ use crate::rule_table::RuleTable;
 use crate::utils::*;
 
 pub fn check(config: Config) -> Vec<(String, Result<Vec<Diagnostic>, anyhow::Error>)> {
-    // Check version control once before processing files, if fixes will be applied
+    // Ensure that all paths are covered by VCS. This is conservative because
+    // technically we could apply fixes on those that are covered by VCS and
+    // error for the others, but I'd rather be on the safe side and force the
+    // user to deal with that before applying any fixes.
     if (config.apply_fixes || config.apply_unsafe_fixes) && !config.paths.is_empty() {
-        let first_path = relativize_path(&config.paths[0]);
-        if let Err(e) = check_version_control(&first_path, &config) {
-            return vec![(first_path.clone(), Err(e))];
+        for path in &config.paths {
+            let path_str = relativize_path(path);
+            if let Err(e) = check_version_control(&path_str, &config) {
+                return vec![(path_str, Err(e))];
+            }
         }
     }
 
