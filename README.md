@@ -76,8 +76,8 @@ curl --proto '=https' --tlsv1.2 -LsSf \
 **Windows:**
 
 ```sh
-powershell -ExecutionPolicy Bypass -c `
-  "irm https://github.com/etiennebacher/jarl/releases/latest/download/jarl-installer.ps1 | iex"
+powershell Set-ExecutionPolicy Bypass -Scope Process -Force; `
+   iwr https://github.com/etiennebacher/jarl/releases/latest/download/jarl-installer.ps1 | iex   
 ```
 
 ### From source
