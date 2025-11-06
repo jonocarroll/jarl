@@ -44,9 +44,14 @@ rayon.workspace = true
 # installation, and this `-sys` crate cannot proceed without this knowledge."
 git2 = {version  = "0.20.2", default-features = false}
 
+schemars = { workspace = true, optional = true }
+
 [dev-dependencies]
 insta.workspace = true
 
 
 [lints.clippy]
 module-inception = "allow"
+
+[features]
+schemars = ["dep:schemars"]
