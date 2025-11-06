@@ -87,3 +87,9 @@ runner = "windows-2022"
 runner = "ubuntu-latest"
 host = "x86_64-unknown-linux-gnu"
 container = { image = "messense/cargo-xwin", host = "x86_64-unknown-linux-musl", package_manager = "apt" }
+
+[[dist.extra-artifacts]]
+# Include this in the release artifacts because SchemaStore points to it,
+# and therefore Tombi can get the JSON schema.
+artifacts = ["artifacts/jarl.schema.json"]
+build = ["echo"]
