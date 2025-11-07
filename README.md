@@ -90,6 +90,21 @@ Alternatively, if you have Rust installed, you can get the development version w
 cargo install --git https://github.com/etiennebacher/jarl --profile=release
 ```
 
+## Related work
+
+[`lintr`](https://lintr.r-lib.org/) is the most famous R linter. 
+It provides dozens of rules related to performance, readibility, formatting, and more.
+Jarl is heavily influenced by `lintr` since most rule definitions come from it. 
+However, `lintr` doesn't provide automatic fixes for rule violations, which makes it harder to use.
+Its performance also noticeably degrades as the number of files and their length increase.
+
+[`flir`](https://flir.etiennebacher.com/) is a relatively novel package.
+It uses [`ast-grep`](https://ast-grep.github.io/) in the background to search and replace code patterns.
+It is therefore quite flexible and easy to extend by users who may want more custom rules.
+Both Jarl and `ast-grep` use [`tree-sitter`](https://tree-sitter.github.io/tree-sitter/) in the background to parse R files, their structure is completely different.
+Jarl is faster and also easier to link to the Language Server Protocol, which enables its use via VS Code or Positron Extensions for instance.  
+
+
 ## Acknowledgements
 
 * [`lintr` authors and contributors](https://lintr.r-lib.org/authors.html): while the infrastructure is completely different, all the rule definitions and a large part of the tests are inspired or taken from `lintr`.
