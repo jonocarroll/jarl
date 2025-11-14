@@ -1,6 +1,15 @@
 use crate::logging::LogLevel;
 use crate::output_format::OutputFormat;
+use clap::builder::Styles;
+use clap::builder::styling::{AnsiColor, Effects};
 use clap::{Parser, Subcommand, arg};
+
+// Configures Clap v3-style help menu colors
+const STYLES: Styles = Styles::styled()
+    .header(AnsiColor::Green.on_default().effects(Effects::BOLD))
+    .usage(AnsiColor::Green.on_default().effects(Effects::BOLD))
+    .literal(AnsiColor::Cyan.on_default().effects(Effects::BOLD))
+    .placeholder(AnsiColor::Cyan.on_default());
 
 #[derive(Parser)]
 #[command(
@@ -10,6 +19,7 @@ use clap::{Parser, Subcommand, arg};
     after_help = "For help with a specific command, see: `jarl help <command>`."
 )]
 #[command(version)]
+#[command(styles = STYLES)]
 pub struct Args {
     #[command(subcommand)]
     pub(crate) command: Command,
