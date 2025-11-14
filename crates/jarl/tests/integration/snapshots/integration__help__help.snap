@@ -5,7 +5,7 @@ expression: "Command::new(binary_path()).arg(\"help\").run().normalize_os_execut
 success: true
 exit_code: 0
 ----- stdout -----
-jarl: Find and Fix Lints in R Code
+jarl: Just Another R Linter
 
 Usage: jarl [OPTIONS] <COMMAND>
 

@@ -15,7 +15,7 @@ const STYLES: Styles = Styles::styled()
 #[command(
     author,
     name = "jarl",
-    about = "jarl: Find and Fix Lints in R Code",
+    about = "jarl: Just Another R Linter",
     after_help = "For help with a specific command, see: `jarl help <command>`."
 )]
 #[command(version)]
