@@ -84,6 +84,7 @@ pub fn implicit_assignment(ast: &RBinaryExpression) -> anyhow::Result<Option<Dia
                     "expect_error",
                     "expect_warning",
                     "expect_message",
+                    "expect_snapshot",
                     "suppressMessages",
                     "suppressWarnings",
                 ]
