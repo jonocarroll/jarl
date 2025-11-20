@@ -1,15 +1,19 @@
 # assignment
 ## What it does
 
-Checks for usage of `=` as assignment operator.
+Checks for consistency of assignment operator.
 
 ## Why is this bad?
 
-This is not "bad" strictly speaking since in most cases using `=` and `<-`
-is equivalent. Some very popular packages use `=` without problems.
+In most cases using `=` and `<-` is equivalent. Some very popular packages
+use `=` without problems. This rule only ensures the consistency of the
+assignment operator in a project.
 
-Nonetheless, `<-` is more popular and this rule may be useful to avoid
-mixing both operators in a codebase.
+Note that Jarl doesn't force you to use `<-` as assignment operator, it
+simply uses it as default. To use `=` as the preferred operator:
+
+- in the CLI (temporary change), use `--assignment-op "="`;
+- in `jarl.toml` (permanent change): set `assignment = "="`.
 
 ## Example
 
@@ -27,4 +31,3 @@ x <- "a"
 See:
 
 - [https://style.tidyverse.org/syntax.html#assignment-1](https://style.tidyverse.org/syntax.html#assignment-1)
-- [https://stackoverflow.com/a/1742550](https://stackoverflow.com/a/1742550)
