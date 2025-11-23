@@ -13,7 +13,6 @@ mod tests {
 
     #[test]
     fn test_lint_browser() {
-
         let expected_message = "Calls to `browser()` should be removed.";
         expect_lint("browser()", expected_message, "browser", None);
         expect_lint(
