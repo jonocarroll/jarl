@@ -19,12 +19,7 @@ mod tests {
         //use insta::assert_snapshot;
 
         let expected_message = "Calls to `browser()` should be removed.";
-        expect_lint(
-            "browser()",
-            expected_message,
-            "browser",
-            None,
-        );
+        expect_lint("browser()", expected_message, "browser", None);
         expect_lint(
             "browser(text = 'remove before commit')",
             expected_message,
@@ -39,10 +34,10 @@ mod tests {
         );
         expect_lint(
             // This is invalid syntax (invalid 'y' type in 'x || y'), but it "works" for debugging
-            "( x < 10 ) || browser('big x')", 
-            expected_message, 
-            "browser", 
-            None
+            "( x < 10 ) || browser('big x')",
+            expected_message,
+            "browser",
+            None,
         );
     }
 }
